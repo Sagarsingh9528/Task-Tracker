@@ -4,6 +4,7 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import connectDB from './config/db.js'
 import authRouter from './routes/authRoute.js'
+import taskRouter from './routes/taskRoute.js'
 
 
 const port = process.env.PORT || 5555
@@ -19,6 +20,7 @@ app.get('/', (req, res)=>{
     res.send('Server is running  🚀');
 })
 app.use("/api/auth", authRouter);
+app.use("/api/tasks", taskRouter);
 
 connectDB();
 app.listen(port, ()=>

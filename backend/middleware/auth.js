@@ -1,8 +1,7 @@
 import jwt from "jsonwebtoken";
 
-const isAuth = async (req, res, next) => {
+const isAuth = (req, res, next) => {
   try {
-    
     let token = req.cookies?.token;
 
     if (!token && req.headers.authorization) {
@@ -11,16 +10,26 @@ const isAuth = async (req, res, next) => {
         token = parts[1];
       }
     }
+
     if (!token) {
       return res.status(401).json({ message: "No token provided. Access denied." });
     }
 
+    
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+   
+    req.userId = decoded.id;
 
-    req.userId = decoded.userId;
+    if (!req.userId) {
+      return res.status(401).json({ message: "Invalid token payload" });
+    }
+
     next();
   } catch (error) {
-    return res.status(401).json({ message: "Invalid or expired token", error: error.message });
+    return res.status(401).json({
+      message: "Invalid or expired token",
+      error: error.message,
+    });
   }
 };
 

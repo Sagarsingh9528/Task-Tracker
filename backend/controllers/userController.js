@@ -16,7 +16,7 @@ export const signup = async (req, res, next) => {
         const passwordHash = await bcrypt.hash(password, salt);
 
         const user = await User.create({name, email, passwordHash});
-        const token = generateToken(user);
+        const token = generateToken(user._id);
         res.status(201).json({
             token,
             user: {
@@ -43,7 +43,7 @@ export const login = async (req, res, next) => {
         const isMatch = await bcrypt.compare(password, user.passwordHash);
         if (!isMatch) return res.status(400).json({ message: 'Invalid credentials' });
 
-        const token = generateToken(user);
+        const token = generateToken(user._id);
         res.json({ token, user: { id: user._id, email: user.email, name: user.name } });
     } catch (error) {
         next(error);
