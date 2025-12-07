@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API = "http://localhost:5555/api/tasks" || "https://task-tracker-sandy-two.vercel.app/";
+// ✅ YOUR BACKEND BASE URL
+const API = "https://task-tracker-sandy-two.vercel.app/api/tasks";
 
 const TaskService = {
   getAll: (token) =>
@@ -29,7 +30,7 @@ const TaskService = {
     }),
 
   getAllFiltered: (query, token) =>
-    axios.get(API + query, {
+    axios.get(`${API}${query}`, {
       headers: { Authorization: `Bearer ${token}` },
     }),
 };
