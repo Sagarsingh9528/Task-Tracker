@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = "http://localhost:5555/api/tasks";
+const API = "http://localhost:5555/api/tasks" || "https://task-tracker-sandy-two.vercel.app/";
 
 const TaskService = {
   getAll: (token) =>
